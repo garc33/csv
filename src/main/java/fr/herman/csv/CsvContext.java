@@ -1,10 +1,10 @@
 package fr.herman.csv;
 
-import org.apache.commons.lang3.StringUtils;
-
 import fr.herman.csv.string.StringHandlerRegistry;
 
 public class CsvContext<T> {
+
+    private static final String EMPTY = "";
 
     public static final char DEFAULT_SEPARATOR = ',';
 
@@ -50,7 +50,7 @@ public class CsvContext<T> {
 
     public String marshall(Object object) {
         if (object == null) {
-            return StringUtils.EMPTY;
+            return EMPTY;
         }
         StringHandler converter = registry.lookup(object.getClass());
         return converter.marshall(object);
