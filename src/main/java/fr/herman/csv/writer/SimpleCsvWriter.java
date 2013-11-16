@@ -30,7 +30,7 @@ public class SimpleCsvWriter implements CsvWriter {
     @Override
     public void write(String value) throws IOException {
         if (append) {
-            writer.append(context.getQuote());
+            writer.append(context.getSeparator());
         }
         writer.write(value);
     }
