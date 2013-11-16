@@ -1,4 +1,4 @@
-package fr.herman.csv;
+package fr.herman.csv.string;
 
 import fr.herman.csv.registry.RegistrableEntity;
 
@@ -13,5 +13,7 @@ public interface StringHandler<T> extends RegistrableEntity<Class<T>> {
     void setOverridenFormat(String format);
 
     String getOverridenFormat();
+
+    boolean isQuotable();
 
 }

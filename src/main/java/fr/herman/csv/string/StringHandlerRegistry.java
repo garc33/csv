@@ -2,7 +2,6 @@ package fr.herman.csv.string;
 
 import java.lang.reflect.Field;
 
-import fr.herman.csv.StringHandler;
 import fr.herman.csv.registry.GenericRegistry;
 
 public class StringHandlerRegistry extends

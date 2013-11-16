@@ -1,5 +1,6 @@
 package fr.herman.csv;
 
+import fr.herman.csv.string.StringHandler;
 import fr.herman.csv.string.StringHandlerLookup;
 
 public class CsvContext<T> {
@@ -7,6 +8,9 @@ public class CsvContext<T> {
     private static final String EMPTY = "";
 
     public static final char DEFAULT_SEPARATOR = ',';
+
+    public static final String DEFAULT_LINE_SEPARATOR = System
+            .getProperty("line.separator");
 
     public static final char DEFAULT_QUOTE = '\'';
 
@@ -21,6 +25,8 @@ public class CsvContext<T> {
     private char quote = DEFAULT_QUOTE;
 
     private char comment = DEFAULT_COMMENT;
+
+    private String lineSeparator = DEFAULT_LINE_SEPARATOR;
 
     private CsvContext() {
     }
@@ -88,6 +94,14 @@ public class CsvContext<T> {
 
     public void setStringHandlerLookup(StringHandlerLookup stringHandlerLookup) {
         this.stringHandlerLookup = stringHandlerLookup;
+    }
+
+    public String getLineSeparator() {
+        return lineSeparator;
+    }
+
+    public void setLineSeparator(String lineSeparator) {
+        this.lineSeparator = lineSeparator;
     }
 
 }

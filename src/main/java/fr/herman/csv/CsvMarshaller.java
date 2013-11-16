@@ -1,12 +1,12 @@
 package fr.herman.csv;
 
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.List;
 
-import com.Ostermiller.util.CSVPrinter;
-
 import fr.herman.csv.mapper.ObjectToCsvMapper;
+import fr.herman.csv.writer.CsvWriter;
+import fr.herman.csv.writer.SimpleCsvWriter;
 
 public class CsvMarshaller<T> {
 
@@ -18,19 +18,22 @@ public class CsvMarshaller<T> {
 
     public void marshall(ObjectToCsvMapper<T> mapper, List<T> objects,
             OutputStream outputStream) {
-        CSVPrinter printer = new CSVPrinter(
-                new OutputStreamWriter(outputStream), context.getComment(),
-                context.getQuote(), context.getSeparator());
-        if (context.isWithHeader()) {
-            String[] headers = mapper.headersToCsv(context);
-            printer.print(headers);
-            printer.println();
-        }
+        CsvWriter printer = new SimpleCsvWriter(context, outputStream);
+        try {
+            if (context.isWithHeader()) {
+                String[] headers = mapper.headersToCsv(context);
+                printer.write(headers);
+                printer.writeln();
+            }
 
-        for (T object : objects) {
-            String[] strings = mapper.toCsv(context, object);
-            printer.print(strings);
-            printer.println();
+            for (T object : objects) {
+                String[] strings = mapper.toCsv(context, object);
+                printer.write(strings);
+                printer.writeln();
+            }
+            printer.flush();
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
         }
     }
 }
