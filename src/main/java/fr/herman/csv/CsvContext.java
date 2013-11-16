@@ -1,6 +1,6 @@
 package fr.herman.csv;
 
-import fr.herman.csv.string.StringHandlerRegistry;
+import fr.herman.csv.string.StringHandlerLookup;
 
 public class CsvContext<T> {
 
@@ -12,9 +12,7 @@ public class CsvContext<T> {
 
     public static final char DEFAULT_COMMENT = '#';
 
-    private final CsvBeanProperties csvBeanProperties;
-
-    private StringHandlerRegistry registry;
+    private StringHandlerLookup stringHandlerLookup;
 
     private boolean withHeader = true;
 
@@ -24,20 +22,19 @@ public class CsvContext<T> {
 
     private char comment = DEFAULT_COMMENT;
 
-    private CsvContext(CsvBeanProperties csvBeanProperties) {
-        this.csvBeanProperties = csvBeanProperties;
+    private CsvContext() {
     }
 
-    public static <T> CsvContext<T> create(Class<T> clazzer) {
-        return new CsvContext(null);
+    public static <T> CsvContext<T> create() {
+        return new CsvContext();
     }
 
     public CsvMarshaller<T> newMarshaller() {
-        return new CsvMarshaller<T>(this, csvBeanProperties);
+        return new CsvMarshaller<T>(this);
     }
 
     public CsvUnmarshaller<T> newUnmarshaller() {
-        return new CsvUnmarshaller<T>(this, csvBeanProperties);
+        return new CsvUnmarshaller<T>(this);
     }
 
     public boolean isWithHeader() {
@@ -52,21 +49,13 @@ public class CsvContext<T> {
         if (object == null) {
             return EMPTY;
         }
-        StringHandler converter = registry.lookup(object.getClass());
+        StringHandler converter = stringHandlerLookup.lookup(object.getClass());
         return converter.marshall(object);
     }
 
     public <Q> Q unmarshall(Class<Q> clazz, String value) {
-        StringHandler converter = registry.lookup(clazz);
+        StringHandler converter = stringHandlerLookup.lookup(clazz);
         return (Q) converter.unmarshall(clazz, value);
-    }
-
-    public StringHandlerRegistry getRegistry() {
-        return registry;
-    }
-
-    public void setRegistry(StringHandlerRegistry registry) {
-        this.registry = registry;
     }
 
     public char getSeparator() {
@@ -91,6 +80,14 @@ public class CsvContext<T> {
 
     public void setComment(char comment) {
         this.comment = comment;
+    }
+
+    public StringHandlerLookup getStringHandlerLookup() {
+        return stringHandlerLookup;
+    }
+
+    public void setStringHandlerLookup(StringHandlerLookup stringHandlerLookup) {
+        this.stringHandlerLookup = stringHandlerLookup;
     }
 
 }

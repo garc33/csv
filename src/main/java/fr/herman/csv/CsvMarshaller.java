@@ -6,37 +6,30 @@ import java.util.List;
 
 import com.Ostermiller.util.CSVPrinter;
 
-public class CsvMarshaller<T> {
+import fr.herman.csv.mapper.ObjectToCsvMapper;
 
-    private final CsvBeanProperties csvBeanProperties;
+public class CsvMarshaller<T> {
 
     private final CsvContext<T> context;
 
-    CsvMarshaller(CsvContext<T> context, CsvBeanProperties csvBeanProperties) {
-        super();
+    CsvMarshaller(CsvContext<T> context) {
         this.context = context;
-        this.csvBeanProperties = csvBeanProperties;
     }
 
-    public void marshall(List<T> objects, OutputStream outputStream) {
+    public void marshall(ObjectToCsvMapper<T> mapper, List<T> objects,
+            OutputStream outputStream) {
         CSVPrinter printer = new CSVPrinter(
                 new OutputStreamWriter(outputStream), context.getComment(),
                 context.getQuote(), context.getSeparator());
         if (context.isWithHeader()) {
-            for (CsvProperty property : csvBeanProperties.getProperties()) {
-                printer.print(property.getHeader());
-            }
+            String[] headers = mapper.headersToCsv(context);
+            printer.print(headers);
             printer.println();
         }
 
         for (T object : objects) {
-            if (!csvBeanProperties.getHandledClass().isAssignableFrom(
-                    object.getClass())) {
-                throw new RuntimeException(object.toString() + "not handled");
-            }
-            for (CsvProperty property : csvBeanProperties.getProperties()) {
-                printer.print(property.getStringValue(context, object));
-            }
+            String[] strings = mapper.toCsv(context, object);
+            printer.print(strings);
             printer.println();
         }
     }

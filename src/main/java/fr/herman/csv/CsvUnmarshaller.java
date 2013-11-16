@@ -6,34 +6,29 @@ import java.util.Iterator;
 
 import com.Ostermiller.util.CSVParser;
 
+import fr.herman.csv.mapper.CsvToObjectMapper;
+
 public class CsvUnmarshaller<T> {
 
-    private final CsvBeanProperties<T> csvBeanProperties;
-
     private final CsvContext<T> context;
-
-    public CsvBeanProperties getCsvBeanProperties() {
-        return csvBeanProperties;
-    }
 
     public CsvContext<T> getContext() {
         return context;
     }
 
-    CsvUnmarshaller(CsvContext<T> context,
-            CsvBeanProperties<T> csvBeanProperties) {
+    CsvUnmarshaller(CsvContext<T> context) {
         this.context = context;
-        this.csvBeanProperties = csvBeanProperties;
     }
 
-    public Iterator<T> unmarshall(InputStream inputStream) {
+    public Iterator<T> unmarshall(final CsvToObjectMapper<T> mapper,
+            InputStream inputStream) {
         final CSVParser parser = new CSVParser(inputStream,
                 context.getSeparator());
         parser.setCommentStart(String.valueOf(context.getComment()));
         parser.changeQuote(context.getQuote());
         if (context.isWithHeader()) {
             try {
-                parser.getLine();
+                mapper.handleHeader(context, parser.getLine());
             } catch (IOException e) {
             }
         }
@@ -50,12 +45,7 @@ public class CsvUnmarshaller<T> {
                 String[] current = line;
                 next = true;
                 step();
-                T object = csvBeanProperties.getNewInstance();
-                for (int i = 0; i < csvBeanProperties.getProperties().length; i++) {
-                    CsvProperty<T> property = csvBeanProperties.getProperties()[i];
-                    property.setValue(context, object, current[i]);
-                }
-                return object;
+                return mapper.toObject(context, current);
             }
 
             public void remove() {

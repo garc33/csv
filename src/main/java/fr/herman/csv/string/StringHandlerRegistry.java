@@ -6,7 +6,8 @@ import fr.herman.csv.StringHandler;
 import fr.herman.csv.registry.GenericRegistry;
 
 public class StringHandlerRegistry extends
-        GenericRegistry<StringHandler<?>, Class<?>> {
+        GenericRegistry<StringHandler<?>, Class<?>> implements
+        StringHandlerLookup {
 
     @Override
     protected boolean areKeysEquals(Class key, Class klass) {
