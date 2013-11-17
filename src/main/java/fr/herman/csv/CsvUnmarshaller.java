@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import com.Ostermiller.util.CSVParser;
-
 import fr.herman.csv.mapper.CsvToObjectMapper;
+import fr.herman.csv.reader.CsvReader;
+import fr.herman.csv.reader.OstmillerReaderAdapter;
 
 public class CsvUnmarshaller<T> {
 
@@ -22,13 +22,11 @@ public class CsvUnmarshaller<T> {
 
     public Iterator<T> unmarshall(final CsvToObjectMapper<T> mapper,
             InputStream inputStream) {
-        final CSVParser parser = new CSVParser(inputStream,
-                context.getSeparator());
-        parser.setCommentStart(String.valueOf(context.getComment()));
-        parser.changeQuote(context.getQuote());
+        final CsvReader reader = new OstmillerReaderAdapter(context,
+                inputStream);
         if (context.isWithHeader()) {
             try {
-                mapper.handleHeader(context, parser.getLine());
+                mapper.handleHeader(context, reader.readLine());
             } catch (IOException e) {
             }
         }
@@ -54,7 +52,7 @@ public class CsvUnmarshaller<T> {
             private boolean step() {
                 if (next) {
                     try {
-                        line = parser.getLine();
+                        line = reader.readLine();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
