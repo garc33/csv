@@ -26,20 +26,12 @@ public class WriterTest {
     @DataProvider
     public static Object[][] dataProviderCsvReader() {
         return new Object[][]{
-// @formatter:off     
+                // @formatter:off     
                 add(",,","","",""),
-                add(",,",null,null,null)
-//            {",,", 3, 0},
-//            {"a,a,a", 3, 1},
-//            {"aa,aa,aa", 3, 2},
-//            {"aaa,aaa,aaa", 3, 3},
-//            {"aaa,\",\",aaa", 3, 3},
-//            {"a,b,c,d", 4, 1},
-//            {"\",,,", 1, 4},
-//            {"\",,,\"", 1, 5},
-//            {"\",,,\",\",,,\"", 2, 5},
-//            {"#a,b,c\naa,bb\n#aaa,bbb,ccc,ddd", 2, 2}
-         // @formatter:on
+                add(",,",null,null,null),
+                add("a,b,c,d","a","b","c","d"),
+                add("aaa,bb,cccc","aaa","bb","cccc"),
+                // @formatter:on
         };
     }
 
