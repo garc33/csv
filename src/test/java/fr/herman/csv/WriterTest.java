@@ -31,6 +31,8 @@ public class WriterTest {
                 add(",,",null,null,null),
                 add("a,b,c,d","a","b","c","d"),
                 add("aaa,bb,cccc","aaa","bb","cccc"),
+                add(""),
+                add("",""),
                 // @formatter:on
         };
     }
