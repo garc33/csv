@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import fr.herman.csv.exception.MarshallingException;
 import fr.herman.csv.mapper.ObjectToCsvMapper;
 import fr.herman.csv.writer.CsvWriter;
 import fr.herman.csv.writer.SimpleCsvWriter;
@@ -17,7 +18,7 @@ public class CsvMarshaller<T> {
     }
 
     public void marshall(ObjectToCsvMapper<T> mapper, List<T> objects,
-            OutputStream outputStream) {
+            OutputStream outputStream) throws MarshallingException {
         CsvWriter printer = new SimpleCsvWriter(context, outputStream);
         try {
             if (context.isWithHeader()) {
@@ -33,7 +34,7 @@ public class CsvMarshaller<T> {
             }
             printer.flush();
         } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
+            throw new MarshallingException(ioe);
         }
     }
 }

@@ -9,13 +9,6 @@
 	<properties>
 		<java.version>1.6</java.version>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.ostermiller</groupId>
-			<artifactId>utils</artifactId>
-			<version>1.07.00</version>
-		</dependency>
-	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
