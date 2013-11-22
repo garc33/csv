@@ -37,7 +37,7 @@ public class SimpleCsvReader implements CsvReader {
         // Handle delimiter at end of line
         cursor = line.length() - 1;
         if (!isQuoted && cursor > -1 && line.charAt(cursor) == delimiter) {
-            tokens.add(null);
+            tokens.add("");
         }
 
         return tokens.toArray(new String[tokens.size()]);

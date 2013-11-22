@@ -1,5 +1,5 @@
 language: java
-script: mvn compile
+script: mvn install
 jdk:
   - oraclejdk7
   - openjdk7
