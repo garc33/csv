@@ -24,7 +24,7 @@ public class WriterTest {
     }
 
     @DataProvider
-    public static Object[][] dataProviderCsvReader() {
+    public static Object[][] dataProviderCsvWriter() {
         return new Object[][]{
                 // @formatter:off     
                 add(",,","","",""),
@@ -38,7 +38,7 @@ public class WriterTest {
     }
 
     @Test
-    @UseDataProvider("dataProviderCsvReader")
+    @UseDataProvider("dataProviderCsvWriter")
     public void testCsvReader(String expected, List<String> values) throws Throwable {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         CsvContext context = CsvContext.create();
