@@ -59,7 +59,7 @@
 					<repositoryName>m2p2-repository</repositoryName>
 					<branch>refs/heads/gh-pages</branch>
 					<path>maven/snapshots</path>
-					<oauth2Token>${env.TOKEN}</oauth2Token>
+					<oauth2Token>${env.MY_SECRET_ENV}</oauth2Token>
 
 					<includes>
 						<include>**/*</include>
