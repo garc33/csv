@@ -14,6 +14,6 @@ public interface StringHandler<T> extends RegistrableEntity<Class<T>> {
 
     String getOverridenFormat();
 
-    boolean isQuotable();
+    boolean useQuote();
 
 }
