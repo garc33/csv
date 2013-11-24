@@ -6,10 +6,23 @@
 	<version>1.0</version>
 	<name>CSV Framework</name>
 	<description>CSV (un)marshaller</description>
+	<inceptionYear>2013</inceptionYear>
+	<developers>
+		<developer>
+			<name>Marc HERMAN</name>
+			<id>garc33</id>
+		</developer>
+	</developers>
+	<url>https://github.com/garc33/csv</url>
+	<scm>
+		<url>https://github.com/garc33/csv.git</url>
+	</scm>
 	<properties>
 		<java.version>1.6</java.version>
 		<junit.version>4.11</junit.version>
+		<junit-dataprovider.version>1.5.0</junit-dataprovider.version>
 		<built.repo.dir>${project.build.directory}/repo</built.repo.dir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -21,7 +34,7 @@
 		<dependency>
 			<groupId>com.tngtech.java</groupId>
 			<artifactId>junit-dataprovider</artifactId>
-			<version>1.5.0</version>
+			<version>${junit-dataprovider.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
