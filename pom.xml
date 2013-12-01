@@ -26,6 +26,11 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.sweet</groupId>
+			<artifactId>converters</artifactId>
+			<version>1.1.0-Final</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
@@ -90,7 +95,7 @@
 
 					<repositoryOwner>garc33</repositoryOwner>
 					<repositoryName>m2p2-repository</repositoryName>
-					<branch>refs/heads/gh-pages</branch>
+					<branch>refs/heads/mvn-repo</branch>
 					<path>maven/snapshots</path>
 					<oauth2Token>${env.MY_SECRET_ENV}</oauth2Token>
 
@@ -109,4 +114,17 @@
 			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>garc33-mvn-repo</id>
+			<url>https://raw.github.com/garc33/m2p2-repository/mvn-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
 </project>
