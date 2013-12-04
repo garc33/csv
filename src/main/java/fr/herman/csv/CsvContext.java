@@ -1,7 +1,6 @@
 package fr.herman.csv;
 
-import fr.herman.csv.string.StringHandler;
-import fr.herman.csv.string.StringHandlerLookup;
+import org.springframework.core.convert.ConversionService;
 
 public class CsvContext<T> {
 
@@ -16,7 +15,7 @@ public class CsvContext<T> {
 
     public static final char DEFAULT_COMMENT = '#';
 
-    private StringHandlerLookup stringHandlerLookup;
+    private ConversionService converterService;
 
     private boolean withHeader = true;
 
@@ -55,13 +54,17 @@ public class CsvContext<T> {
         if (object == null) {
             return EMPTY;
         }
-        StringHandler converter = stringHandlerLookup.lookup(object.getClass());
-        return converter.marshall(object);
+        if (converterService.canConvert(object.getClass(), String.class)) {
+            return converterService.convert(object, String.class);
+        }
+        return "ERROR";
     }
 
     public <Q> Q unmarshall(Class<Q> clazz, String value) {
-        StringHandler converter = stringHandlerLookup.lookup(clazz);
-        return (Q) converter.unmarshall(clazz, value);
+        if (converterService.canConvert(String.class, clazz)) {
+            return converterService.convert(value, clazz);
+        }
+        return null;
     }
 
     public char getSeparator() {
@@ -88,14 +91,6 @@ public class CsvContext<T> {
         this.comment = comment;
     }
 
-    public StringHandlerLookup getStringHandlerLookup() {
-        return stringHandlerLookup;
-    }
-
-    public void setStringHandlerLookup(StringHandlerLookup stringHandlerLookup) {
-        this.stringHandlerLookup = stringHandlerLookup;
-    }
-
     public String getLineSeparator() {
         return lineSeparator;
     }
@@ -104,4 +99,11 @@ public class CsvContext<T> {
         this.lineSeparator = lineSeparator;
     }
 
+    public ConversionService getConverterService() {
+        return converterService;
+    }
+
+    public void setConverterService(ConversionService converterService) {
+        this.converterService = converterService;
+    }
 }

@@ -19,6 +19,7 @@
 	</scm>
 	<properties>
 		<java.version>1.6</java.version>
+		<spring-version>3.2.4.RELEASE</spring-version>
 		<junit.version>4.11</junit.version>
 		<junit-dataprovider.version>1.5.0</junit-dataprovider.version>
 		<built.repo.dir>${project.build.directory}/repo</built.repo.dir>
@@ -26,9 +27,27 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.sweet</groupId>
-			<artifactId>converters</artifactId>
-			<version>1.1.0-Final</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.sf.jopt-simple</groupId>
+					<artifactId>jopt-simple</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -114,10 +133,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>garc33-releases</id>
-			<url>https://raw.github.com/garc33/m2p2-repository/mvn-repo/maven/releases/</url>
-		</repository>
-	</repositories>
 </project>
