@@ -1,6 +1,5 @@
 package fr.herman.csv;
 
-import org.springframework.core.convert.ConversionService;
 
 public class CsvContext<T> {
 

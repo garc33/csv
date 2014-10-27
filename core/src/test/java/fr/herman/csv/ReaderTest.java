@@ -1,26 +1,20 @@
 package fr.herman.csv;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
-
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 import fr.herman.csv.reader.CsvReader;
 import fr.herman.csv.reader.SimpleCsvReader;
 
-@RunWith(DataProviderRunner.class)
 public class ReaderTest {
 
-    @DataProvider
+    @DataProvider(name = "lines", parallel = true)
     public static Object[][] dataProviderCsvReader() {
         return new Object[][]{
-         // @formatter:off     
+// @formatter:off
             {",,", 3, 0},
             {"a,a,a", 3, 1},
             {"aa,aa,aa", 3, 2},
@@ -35,14 +29,13 @@ public class ReaderTest {
         };
     }
 
-    @Test
-    @UseDataProvider("dataProviderCsvReader")
+    @Test(dataProvider = "lines")
     public void testCsvReader(String input, int nbTokens, int nbCharByToken) throws Throwable {
         ByteArrayInputStream is = new ByteArrayInputStream(input.getBytes());
         CsvReader parser = new SimpleCsvReader(is, ',', '"', '#');
         String[] line = parser.readLine();
         System.out.println(Arrays.toString(line));
-        Assert.assertEquals(nbTokens, line.length);
+        assertThat(line).hasSize(nbTokens);
         if (nbCharByToken > -1) {
             for (String token : line) {
                 Assert.assertEquals(nbCharByToken, token.length());

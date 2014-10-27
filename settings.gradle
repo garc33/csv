@@ -1,0 +1,3 @@
+rootProject.name = 'csv-parent'
+include 'csv-core'
+project(':csv-core').projectDir = file('core')

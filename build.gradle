@@ -1,0 +1,36 @@
+buildscript {
+	repositories{
+		mavenCentral()
+		maven{ url = 'https://repo.eclipse.org/content/repositories/egit-releases/' }
+		maven{ url = 'https://raw.github.com/garc33/m2p2-repository/mvn-repo/maven/releases/' }
+	}
+	dependencies { classpath "fr.herman.gradle.plugins:gradle-github-plugin:1.0" }
+}
+allprojects{
+
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'maven'
+	apply plugin: 'github'
+
+	version = '1.1-SNAPSHOT'
+
+	repositories { mavenCentral() }
+
+	dependencies{
+		testCompile 'org.testng:testng:6.1.1'
+		testCompile 'org.assertj:assertj-core:1.7.0'
+	}
+	
+	test{
+		useTestNG()
+	}
+	
+	github {
+		username = 'garc33'
+		repo = 'm2p2-repository'
+		branch = 'mvn-repo'
+	}
+
+	group 'fr.herman.csv'
+}
