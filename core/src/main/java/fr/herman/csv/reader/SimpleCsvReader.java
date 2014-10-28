@@ -2,8 +2,7 @@ package fr.herman.csv.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,12 +14,11 @@ public class SimpleCsvReader implements CsvReader {
 
     private boolean isQuoted;
 
-    public SimpleCsvReader(InputStream is, char delimiter, char quote,
-            char comment) {
+    public SimpleCsvReader(Reader reader, char delimiter, char quote, char comment) {
+        this.reader = new BufferedReader(reader);
         this.delimiter = delimiter;
         this.quote = quote;
         this.comment = comment;
-        reader = new BufferedReader(new InputStreamReader(is));
     }
 
     private String[] parseLine(String line) {
