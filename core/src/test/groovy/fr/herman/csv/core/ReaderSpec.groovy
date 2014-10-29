@@ -6,8 +6,8 @@ import fr.herman.csv.reader.SimpleCsvReader
 
 class ReaderSpec extends Specification {
 
-    @Unroll("read line #input return #output")
-    def "read line"(){
+    @Unroll
+    def "read line #input return #output"(){
         expect:
         new SimpleCsvReader(new StringReader(input), ',' as char, '"'as char, '#'as char).readLine()==output
 

@@ -1,9 +1,10 @@
 package fr.herman.csv;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
-
+import java.io.OutputStreamWriter;
+import java.util.Iterator;
 import fr.herman.csv.exception.MarshallingException;
 import fr.herman.csv.mapper.ObjectToCsvMapper;
 import fr.herman.csv.writer.CsvWriter;
@@ -17,23 +18,34 @@ public class CsvMarshaller<T> {
         this.context = context;
     }
 
-    public void marshall(ObjectToCsvMapper<T> mapper, List<T> objects,
-            OutputStream outputStream) throws MarshallingException {
-        CsvWriter printer = new SimpleCsvWriter(context, outputStream);
-        try {
-            if (context.isWithHeader()) {
+    public void marshall(ObjectToCsvMapper<T> mapper, Iterable<T> objects, OutputStream outputStream) throws MarshallingException
+    {
+        marshall(mapper, objects.iterator(), outputStream);
+    }
+
+    public void marshall(ObjectToCsvMapper<T> mapper, Iterator<T> iterator, OutputStream outputStream) throws MarshallingException
+    {
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+        CsvWriter printer = new SimpleCsvWriter(bufferedWriter, context.getSeparator(), context.getLineSeparator());
+        try
+        {
+            if (context.isWithHeader())
+            {
                 String[] headers = mapper.headersToCsv(context);
                 printer.write(headers);
                 printer.writeln();
             }
 
-            for (T object : objects) {
-                String[] strings = mapper.toCsv(context, object);
+            while (iterator.hasNext())
+            {
+                String[] strings = mapper.toCsv(context, iterator.next());
                 printer.write(strings);
                 printer.writeln();
             }
             printer.flush();
-        } catch (IOException ioe) {
+        }
+        catch (IOException ioe)
+        {
             throw new MarshallingException(ioe);
         }
     }

@@ -1,23 +1,23 @@
 package fr.herman.csv.writer;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-import fr.herman.csv.CsvContext;
 
 public class SimpleCsvWriter implements CsvWriter {
 
     private final Writer writer;
 
-    private final CsvContext context;
 
     private boolean append = false;
 
-    public SimpleCsvWriter(CsvContext context, OutputStream os) {
-        writer = new OutputStreamWriter(os);
-        this.context = context;
+    private final char   delimiter;
+    private final String eol;
+
+    public SimpleCsvWriter(Writer writer, char delimiter, String eol)
+    {
+        this.writer = writer;
+        this.delimiter = delimiter;
+        this.eol = eol;
     }
 
     @Override
@@ -30,15 +30,18 @@ public class SimpleCsvWriter implements CsvWriter {
     @Override
     public void write(String value) throws IOException {
         if (append) {
-            writer.append(context.getSeparator());
+            writer.write(delimiter);
         }
-        writer.write(value == null ? "" : value);
+        if (value != null)
+        {
+            writer.write(value);
+        }
         append = true;
     }
 
     @Override
     public void writeln() throws IOException {
-        writer.write(context.getLineSeparator());
+        writer.write(eol);
         append = false;
     }
 
