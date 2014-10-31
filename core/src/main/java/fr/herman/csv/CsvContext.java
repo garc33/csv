@@ -32,11 +32,7 @@ public class CsvContext<T> {
 
     private CsvReaderFactory csvReaderFactory = DefaultCsvFactory.INSTANCE;
 
-    private CsvContext() {
-    }
-
-    public static <T> CsvContext<T> create() {
-        return new CsvContext();
+    CsvContext() {
     }
 
     public CsvMarshaller<T> newMarshaller() {
