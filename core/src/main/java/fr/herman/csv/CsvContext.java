@@ -1,5 +1,8 @@
 package fr.herman.csv;
 
+import fr.herman.csv.factories.CsvReaderFactory;
+import fr.herman.csv.factories.CsvWriterFactory;
+import fr.herman.csv.factories.DefaultCsvFactory;
 
 public class CsvContext<T> {
 
@@ -7,8 +10,7 @@ public class CsvContext<T> {
 
     public static final char DEFAULT_SEPARATOR = ',';
 
-    public static final String DEFAULT_LINE_SEPARATOR = System
-            .getProperty("line.separator");
+    public static final String DEFAULT_LINE_SEPARATOR = System.getProperty("line.separator");
 
     public static final char DEFAULT_QUOTE = '\'';
 
@@ -26,6 +28,10 @@ public class CsvContext<T> {
 
     private String lineSeparator = DEFAULT_LINE_SEPARATOR;
 
+    private CsvWriterFactory csvWriterFactory = DefaultCsvFactory.INSTANCE;
+
+    private CsvReaderFactory csvReaderFactory = DefaultCsvFactory.INSTANCE;
+
     private CsvContext() {
     }
 
@@ -34,11 +40,11 @@ public class CsvContext<T> {
     }
 
     public CsvMarshaller<T> newMarshaller() {
-        return new CsvMarshaller<T>(this);
+        return new CsvMarshaller<T>(this, csvWriterFactory);
     }
 
     public CsvUnmarshaller<T> newUnmarshaller() {
-        return new CsvUnmarshaller<T>(this);
+        return new CsvUnmarshaller<T>(this, csvReaderFactory);
     }
 
     public boolean isWithHeader() {
@@ -105,4 +111,13 @@ public class CsvContext<T> {
     public void setConverterService(ConversionService converterService) {
         this.converterService = converterService;
     }
+
+    public void setCsvWriterFactory(CsvWriterFactory csvWriterFactory) {
+        this.csvWriterFactory = csvWriterFactory;
+    }
+
+    public void setCsvReaderFactory(CsvReaderFactory csvReaderFactory) {
+        this.csvReaderFactory = csvReaderFactory;
+    }
+
 }

@@ -32,8 +32,7 @@ public class SimpleCsvWriter implements CsvWriter {
         if (append) {
             writer.write(delimiter);
         }
-        if (value != null)
-        {
+        if (value != null) {
             writer.write(value);
         }
         append = true;

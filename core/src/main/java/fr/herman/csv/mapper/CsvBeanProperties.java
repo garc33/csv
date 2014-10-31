@@ -1,4 +1,4 @@
-package fr.herman.csv;
+package fr.herman.csv.mapper;
 
 public interface CsvBeanProperties<T> {
     Class<T> getHandledClass();

@@ -1,4 +1,6 @@
-package fr.herman.csv;
+package fr.herman.csv.mapper;
+
+import fr.herman.csv.CsvContext;
 
 public interface CsvProperty<T> {
 

@@ -2,10 +2,7 @@ package fr.herman.csv.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.herman.csv.CsvBeanProperties;
 import fr.herman.csv.CsvContext;
-import fr.herman.csv.CsvProperty;
 
 public class DefaultMapper<T> implements Mapper<T> {
 
